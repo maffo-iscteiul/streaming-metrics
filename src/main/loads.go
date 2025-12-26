@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	gojq_extentions "example.com/gojq_extentions/src"
 	"example.com/streaming-metrics/src/flow"
 
 	"github.com/itchyny/gojq"
@@ -32,6 +33,10 @@ func with_function_log() gojq.CompilerOption {
 			"metric":    args[3],
 		}
 	})
+}
+
+func with_function_compile_test() gojq.CompilerOption {
+	return gojq.WithFunction("ctest", 1, 1, gojq_extentions.Compiled_test)
 }
 
 func load_jq(program_file string, options ...gojq.CompilerOption) *gojq.Code {
@@ -88,7 +93,7 @@ func load_namespaces(monitors_dir string, configs []flow.Namespace) map[string]*
 		monitor := load_jq(path_monitor_jq)
 
 		path_lambda_jq := fmt.Sprintf("%s/%s/%s", monitors_dir, namespace.Namespace, "lambda.jq")
-		lambda := load_jq(path_lambda_jq, gojq.WithVariables([]string{"$state", "$metric"}))
+		lambda := load_jq(path_lambda_jq, gojq.WithVariables([]string{"$state", "$metric"}), with_function_compile_test())
 
 		if monitor != nil && lambda != nil {
 			namespace.Set_monitor(monitor)
@@ -113,7 +118,7 @@ func load_filters(monitors_dir string, configs []flow.Namespace) *flow.Filter_ro
 			)
 		}
 		path_filter_jq := fmt.Sprintf("%s/%s/%s", monitors_dir, namespace.Namespace, "filter.jq")
-		if filter := load_jq(path_filter_jq, with_function_namespace_filter_error(), with_function_log()); filter != nil {
+		if filter := load_jq(path_filter_jq, with_function_namespace_filter_error(), with_function_log(), with_function_compile_test()); filter != nil {
 			group.Add_child(&flow.Leaf_node{
 				Filter: filter,
 			})
@@ -124,7 +129,7 @@ func load_filters(monitors_dir string, configs []flow.Namespace) *flow.Filter_ro
 
 func load_group_filters(monitors_dir string) *flow.Filter_root {
 	path_group_filter_jq := fmt.Sprintf("%s/%s/%s", monitors_dir, "groups", "groups.jq")
-	if group_filter := load_jq(path_group_filter_jq, with_function_group_filter_error()); group_filter != nil {
+	if group_filter := load_jq(path_group_filter_jq, with_function_group_filter_error(), with_function_compile_test()); group_filter != nil {
 		return flow.New_filter_tree(group_filter)
 	}
 	logrus.Panicf("load_group_filters no group filter")
