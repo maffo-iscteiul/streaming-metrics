@@ -1,3 +1,6 @@
+# example.com/gojq_extentions v0.0.0-00010101000000-000000000000 => ./gojq_extentions
+## explicit; go 1.21
+example.com/gojq_extentions/src
 # github.com/99designs/go-keychain v0.0.0-20191008050251-8e49817e8af4
 ## explicit
 github.com/99designs/go-keychain
@@ -275,6 +278,10 @@ github.com/spaolacci/murmur3
 # github.com/x448/float16 v0.8.4
 ## explicit; go 1.11
 github.com/x448/float16
+# github.com/xboshy/linkedhashmap v0.1.0
+## explicit; go 1.20
+github.com/xboshy/linkedhashmap
+github.com/xboshy/linkedhashmap/list
 # go.uber.org/atomic v1.11.0
 ## explicit; go 1.18
 go.uber.org/atomic

@@ -52,6 +52,7 @@ require (
 	github.com/rogpeppe/go-internal v1.12.0 // indirect
 	github.com/spaolacci/murmur3 v1.1.0 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
+	github.com/xboshy/linkedhashmap v0.1.0 // indirect
 	go.uber.org/atomic v1.11.0 // indirect
 	golang.org/x/crypto v0.45.0 // indirect
 	golang.org/x/exp v0.0.0-20230626212559-97b1e661b5df // indirect
@@ -73,6 +74,7 @@ require (
 )
 
 require (
+	example.com/gojq_extentions v0.0.0-00010101000000-000000000000
 	github.com/apache/pulsar-client-go v0.14.0
 	github.com/cockroachdb/pebble v1.1.5
 	github.com/itchyny/gojq v0.12.16
